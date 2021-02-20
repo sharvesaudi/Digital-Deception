@@ -48,7 +48,8 @@ print(f"validation set length: {len(val)}")
 print(f"testing set length: {len(test)}")
 
 # Import pre-trained BERT model for transfer learning
-device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+# Note: Enable GPU here if available
+device =  torch.device('cpu')
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 model = BertForSequenceClassification.from_pretrained("bert-base-uncased")
 
@@ -86,7 +87,7 @@ def preprocess_text(text):
                                   max_length = 500).to(device))
   return parts
 
-print_every = 300
+print_every = 50
 total_loss = 0
 all_losses = []
 CUDA_LAUNCH_BLOCKING = 1
@@ -135,8 +136,15 @@ plt.plot(all_losses)
 '''
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-model.load_state_dict(torch.load("trained_model"))
-input("weights have loaded")
+wb = torch.load("trained_model.pt")
+wb['classifier.weight'] = wb['classifier.4.weight']
+print(wb['classifier.4.weight'])
+wb['classifier.bias'] = wb['classifier.4.bias']
+input(wb['classifier.4.bias'])
+del wb['classifier.4.weight']
+del wb['classifier.4.bias']
+
+model.load_state_dict(wb) # strict=False
 
 # Test accuracy on the test set
 total = len(test)
@@ -147,7 +155,7 @@ with torch.no_grad():
   for i, row in test.iterrows():
     text = preprocess_text(str(row['text']))
     label = torch.tensor([row['fake']]).float().to(device)
-    
+
     output = torch.zeros((1, 2)).to(device)
     try:
       for part in text:
@@ -166,7 +174,7 @@ with torch.no_grad():
     if i % print_every == 0 and i > 0:
       print("{}/{}. Current accuracy: {}".format(i, total, correct / i))
 
-print("Final accuracy on test data: {}".format(correct / total))
+input("Final accuracy on test data: {}".format(correct / total))
 
 def test(text):
   text = preprocess_text(text)
@@ -195,8 +203,10 @@ LifeNews depends on the support of readers like you to combat the pro-abortion m
 A second White House official referred to the provision as a “slush fund” and yet another questioned “what the Hyde Amendment and abortion have to do with protecting Americans from coronavirus?”
 Americans should insist to their members of Congress that we need a clean bill that provides aggressive action to help patients and spur the economy. Killing babies with our tax dollars is not the answer to the coronavirus and the situation should not be exploited for political gain.
 """
+print("\nGround truth: fake")
+test(fake1)
 
-true1 = """
+real1 = """
 Price spikes, however, would cause demand to wither and some expensive avocados might be leftover, and stores might try to ration avocados, he added.
 "Exactly what the retail strategy would be in this case, I’m not sure. But we would have vastly fewer avocados," Sumner said.
 Just how fast avocados would disappear, if at all, would depend on whether the Trump administration enacts a full or partial border closure. White House economic adviser Larry Kudlow told CNBC he’s looking for ways to keep some commerce flowing.
@@ -211,9 +221,8 @@ Until the early 2000s, California was the nation’s leading supplier of avocado
 "It’s a very big possibility," Holtz said of avocado shortages. "Three weeks would dry up the Mexican inventory. California alone consumes more avocados than are grown in our state. Cold storage supply chain is basically three weeks or less of inventory. Most of the time it’s seven days."
 A spokeswoman for the California Restaurant Association said "we haven’t heard concerns from restaurants, it doesn’t mean they aren’t worried." A national grocers association said it will "continue to closely monitor any developments" at the border, but did not have information about the potential impact on avocados.
 """
-
-test(fake1)
-test(true1)
+print("\nGround truth: real")
+test(real1)
 
 # From prof's twitter
 real2 = """
@@ -240,7 +249,7 @@ As Mr. Källenius conceded, the dinosaurs still have a lot of convincing to do b
 “The financial market is going to wait and see a little bit,” he said. “How is this going to play out?”
 “Gradually the financial market is starting to look at our technology portfolio, and everything we have in the pipeline,” Mr. Källenius said.
 """
-
+print("\nGround truth: real")
 test(real2)
 
 # From prof's twitter
@@ -262,7 +271,7 @@ Of course, Zuckerberg is sometimes required to visit Washington and attend heari
 One of several essays Zuckerberg instructed Losse to write in his voice was “Companies over countries”. She resigned without completing it, but not before having asked him if he could expand the slogan. “I think we are moving to a world in which we all become cells in a single organism,” came Mark’s mild reply, “where we can communicate automatically and can all work together seamlessly.” Wow. A vision of our future that has me immediately paging Morpheus. Was Murdoch … was Murdoch actually the blue pill all along?
 Marina Hyde is a Guardian columnist
 """
-
+print("\nGround truth: real")
 test(real3)
 
 # From BBC front page
@@ -305,7 +314,7 @@ His death was one of four announced by officials in the Houston region on Thursd
 Two other men died in their homes and another man was found dead in a car park.
 Harris County Sheriff Ed Gonzalez emphasised: "The weather is not just cold, it's deadly."
 """
-
+print("\nGround truth: real")
 test(real4)
 
 # From Bloomberg front page
@@ -329,6 +338,6 @@ Retired General Rick Hillier, who’s in charge of Ontario’s vaccine logistics
 “The number of vaccines, unfortunately, do not support us doing it any faster,” Hillier said.
 A spokesperson for the Ontario health ministry said the projection of 2.6 million per month in the second quarter is based on supplies of the two vaccines already approved for use in Canada -- the Pfizer Inc.-BioNTeck shot and the one developed by Moderna Inc. The approval of other vaccines by Canadian authorities could change the numbers.
 """
-
+print("\nGround truth: real")
 test(real5)
 
