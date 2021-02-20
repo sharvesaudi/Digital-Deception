@@ -18,8 +18,8 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
-real = pd.read_csv('Fake_and_real_news_dataset/True.csv')
-fake = pd.read_csv('Fake_and_real_news_dataset/Fake.csv')
+real = pd.read_csv('../Fake_and_real_news_dataset/True.csv')
+fake = pd.read_csv('../Fake_and_real_news_dataset/Fake.csv')
 
 # Make both sets the same length
 cutoff = min(len(real), len(fake))
@@ -133,6 +133,10 @@ for i, row in train.iterrows():
 torch.save(model.state_dict(), "trained_model.pt")
 plt.plot(all_losses)
 '''
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+model.load_state_dict(torch.load("trained_model"))
+input("weights have loaded")
 
 # Test accuracy on the test set
 total = len(test)
