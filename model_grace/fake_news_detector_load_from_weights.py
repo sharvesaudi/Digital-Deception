@@ -53,7 +53,6 @@ device =  torch.device('cpu')
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 model = BertForSequenceClassification.from_pretrained("bert-base-uncased")
 
-'''
 model.config.num_labels = 1
 
 # Freeze pre-trained weights and add 3 new layers
@@ -71,7 +70,6 @@ model = model.to(device)
 
 criterion = nn.MSELoss().to(device)
 optimizer = optim.SGD(model.classifier.parameters(), lr = 0.01)
-'''
 
 def preprocess_text(text):
   parts = []
@@ -136,15 +134,7 @@ plt.plot(all_losses)
 '''
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-wb = torch.load("trained_model.pt")
-wb['classifier.weight'] = wb['classifier.4.weight']
-print(wb['classifier.4.weight'])
-wb['classifier.bias'] = wb['classifier.4.bias']
-input(wb['classifier.4.bias'])
-del wb['classifier.4.weight']
-del wb['classifier.4.bias']
-
-model.load_state_dict(wb) # strict=False
+model.load_state_dict(torch.load("trained_model.pt"))
 
 # Test accuracy on the test set
 total = len(test)
