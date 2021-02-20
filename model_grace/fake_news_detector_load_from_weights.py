@@ -141,6 +141,7 @@ total = len(test)
 correct = 0
 model.eval()
 
+'''
 with torch.no_grad():
   for i, row in test.iterrows():
     text = preprocess_text(str(row['text']))
@@ -165,6 +166,7 @@ with torch.no_grad():
       print("{}/{}. Current accuracy: {}".format(i, total, correct / i))
 
 input("Final accuracy on test data: {}".format(correct / total))
+'''
 
 def test(text):
   text = preprocess_text(text)
