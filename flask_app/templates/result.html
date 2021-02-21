@@ -2,32 +2,129 @@
 <html>
 
 <head>
-    <title></title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Fake News Detector : Results</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+        html,
+        body {
+            min-height: 100%;
+        }
+        
+        body,
+        div,
+        form,
+        p {
+            padding: 0;
+            margin: 0;
+            outline: none;
+            font-family: Roboto, Arial, sans-serif;
+            font-size: 14px;
+            color: black;
+            line-height: 22px;
+        }
+        
+        h1 {
+            position: absolute;
+            margin: 0;
+            font-size: 32px;
+            color: black;
+            z-index: 2;
+        }
+        
+        .testbox {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: inherit;
+            padding: 20px;
+            flex-direction: column;
+        }
+        
+        form {
+            width: 100%;
+            padding: 20px;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: 0 0 10px 0 #cc0052;
+        }
+        
+        .icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .article-title {
+            justify-content: center;
+            text-align: center;
+            font-size: 34px;
+        }
+        
+        .article-link {
+            justify-content: center;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .results {
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .btn-block {
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        button {
+            width: 150px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #cc0052;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #ff0066;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="testbox">
+        <form action="{{ url_for('home')}}" method="GET">
 
-    <header>
-        <div class="container">
-            <div id="brandname">
-                ML App
+            <div class="header">
+                <h1>Results of:</h1>
             </div>
-            <h2>Spam Detector For SMS Messages</h2>
-
-        </div>
-    </header>
-    <p style="color:blue;font-size:20;text-align: center;"><b>Results for Comment</b></p>
-    <div class="results">
-
-
-
-
-        <h2 style="color:red;">{{prediction[0]}}</h2>
-        <h2 style="color:blue;">{{prediction[1]}}</h2>
-
+            <div class="article-title">
+                <h2>"{{prediction[2]}}"</h2>
+            </div>
+            <div class="article-link">
+                <a href="https://www.NewsArticleLinkHere.com/">{{prediction[2]}}</a>
+            </div>
+            <div class="results">
+                <h2 style="color:rgba(0, 0, 0, 0.4);">Amount:</h2>
+                <h2 style="color: black">It is {{prediction[1]}}% {{prediction[0]}}</h2>
+            </div>
+            <div class="btn-block">
+                <button type="submit" href="/">Back</button>
+            </div>
+        </form>
     </div>
-
 </body>
 
 </html>
