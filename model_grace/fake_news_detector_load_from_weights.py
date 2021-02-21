@@ -18,6 +18,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 
+'''
 real = pd.read_csv('../Fake_and_real_news_dataset/True.csv')
 fake = pd.read_csv('../Fake_and_real_news_dataset/Fake.csv')
 
@@ -46,6 +47,7 @@ del real; del fake
 print(f"training set length: {len(train)}")
 print(f"validation set length: {len(val)}")
 print(f"testing set length: {len(test)}")
+'''
 
 # Import pre-trained BERT model for transfer learning
 # Note: Enable GPU here if available
@@ -136,9 +138,12 @@ plt.plot(all_losses)
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 model.load_state_dict(torch.load("trained_model.pt"))
 
+'''
 # Test accuracy on the test set
 total = len(test)
 correct = 0
+'''
+
 model.eval()
 
 '''
