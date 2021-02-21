@@ -32,7 +32,7 @@ def predict():
         f.write(web_text)
         f.close() '''
         term,pos = test(web_text)
-        pred = (term,pos,web_title)
+        pred = (term,pos,web_title,input_url)
     return render_template('result.html',prediction = pred)
 
 
