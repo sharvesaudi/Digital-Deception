@@ -10,6 +10,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from newspaper import Article
+import math
 
 
 app = Flask(__name__)
@@ -32,7 +33,7 @@ def predict():
         f.write(web_text)
         f.close() '''
         term,pos = test(web_text)
-        pred = (term,pos,web_title,input_url)
+        pred = (term,round(pos,2),web_title,input_url)
     return render_template('result.html',prediction = pred)
 
 
