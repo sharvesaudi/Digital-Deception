@@ -1,5 +1,6 @@
 #pip3 install -qr requirements.txt 
 #assume python3 is installed
+flask-ngrok
 flask
 numpy
 pandas

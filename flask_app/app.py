@@ -1,3 +1,4 @@
+from flask_ngrok import run_with_ngrok
 from flask import Flask,render_template,url_for,request
 import numpy as np
 import pandas as pd
@@ -9,10 +10,10 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from newspaper import Article
-import os
 
 
 app = Flask(__name__)
+run_with_ngrok(app)
 
 @app.route('/')
 def home():
@@ -26,10 +27,12 @@ def predict():
         news.download()
         news.parse()
         web_text = news.text
+        web_title = news.title
         ''' f = open("news.txt", "w")
         f.write(web_text)
         f.close() '''
-        pred = test(web_text)
+        term,pos = test(web_text)
+        pred = (term,pos,web_title)
     return render_template('result.html',prediction = pred)
 
 
@@ -126,4 +129,4 @@ if __name__ == '__main__':
         term = "real" if res.item() == 0 else "fake"
         print("{} at {}%".format(term, val.item() * 100))
         return (term,val.item() * 100)
-    app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 4444)))
+    app.run()
