@@ -3,12 +3,13 @@
 
 <head>
     <title>Fake News Detector</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
         html,
         body {
             min-height: 100%;
+            background-color: #19224D;
         }
         
         body,
@@ -44,16 +45,16 @@
         
         form {
             width: 100%;
-            padding: 20px;
-            border-radius: 6px;
+            padding: 40px;
+            border-radius: 40px;
             background: #fff;
-            box-shadow: 0 0 10px 0 #cc0052;
         }
         
         .banner {
             position: relative;
             height: 210px;
-            background-image: url("/uploads/media/default/0001/01/f1cf9a9068f4bfbdbd9758c45db79203579a3561.jpeg");
+            background-image: url("https://cdn.discordapp.com/attachments/812477489061691424/813001852596781076/Screen_Shot_2021-02-21_at_5.58.55_AM.png");
+            background-position: 40% 10%;
             background-size: cover;
             display: flex;
             justify-content: center;
@@ -112,8 +113,9 @@
             width: 150px;
             padding: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 40px;
             background: #cc0052;
+            font-family: Poppins, Arial, sans-serif;
             font-size: 16px;
             color: #fff;
             cursor: pointer;
@@ -121,6 +123,13 @@
         
         button:hover {
             background: #ff0066;
+        }
+        
+        .disclaimer {
+            justify-content: center;
+            align-items: center;
+            margin: 30px;
+            text-align: center;
         }
         
         @media (min-width: 568px) {
@@ -140,11 +149,6 @@
                 width: calc(100% - 12px);
             }
         }
-        
-        img {
-            max-width: 100%;
-            max-height: 100%;
-        }
     </style>
 </head>
 
@@ -152,7 +156,7 @@
     <div class="testbox">
         <form action="{{ url_for('predict')}}" method="POST">
             <div class="banner">
-                <img src="trump.jpg">
+                <h1 style="text-shadow: 2px 2px #FF9B21; font-size: 40px;">NLP Fake News Detector</h1>
             </div>
             <div class="item">
                 <p>Provide URL to detect if there are any fake news present:</p>
@@ -160,6 +164,9 @@
             </div>
             <div class="btn-block">
                 <button type="submit" href="/">Detect</button>
+            </div>
+            <div class="disclaimer">
+                <p style="font-size: 10px; color: gray;; font-family: sans-serif;">*this is not an endorsement to Trump</p>
             </div>
         </form>
     </div>

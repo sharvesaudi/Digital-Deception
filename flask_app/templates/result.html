@@ -3,12 +3,14 @@
 
 <head>
     <title>Fake News Detector : Results</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
         html,
         body {
             min-height: 100%;
+            background-color: #19224D;
         }
         
         body,
@@ -18,9 +20,9 @@
             padding: 0;
             margin: 0;
             outline: none;
-            font-family: Roboto, Arial, sans-serif;
+            font-family: Poppins, Arial, sans-serif;
             font-size: 14px;
-            color: black;
+            color: white;
             line-height: 22px;
         }
         
@@ -28,7 +30,7 @@
             position: absolute;
             margin: 0;
             font-size: 32px;
-            color: black;
+            color: white;
             z-index: 2;
         }
         
@@ -37,16 +39,13 @@
             justify-content: center;
             align-items: center;
             height: inherit;
-            padding: 20px;
+            padding: 40px;
             flex-direction: column;
         }
         
         form {
             width: 100%;
-            padding: 20px;
-            border-radius: 6px;
-            background: #fff;
-            box-shadow: 0 0 10px 0 #cc0052;
+            padding: 20;
         }
         
         .icon {
@@ -77,7 +76,7 @@
         .results {
             justify-content: center;
             align-items: center;
-            margin-top: 40px;
+            margin: 40px;
             text-align: center;
         }
         
@@ -86,13 +85,21 @@
             text-align: center;
         }
         
+        .disclaimer {
+            justify-content: center;
+            align-items: center;
+            margin: 30px;
+            text-align: center;
+        }
+        
         button {
             width: 150px;
             padding: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             background: #cc0052;
             font-size: 16px;
+            font-family: Poppins, Arial, sans-serif;
             color: #fff;
             cursor: pointer;
         }
@@ -105,23 +112,30 @@
 
 <body>
     <div class="testbox">
-        <form action="{{ url_for('home')}}" method="GET">
 
+        <form action="{{ url_for('home')}}" method="GET">
             <div class="header">
-                <h1>Results of:</h1>
+                <h1 style="color: #FF9B21">Results of:</h1>
             </div>
             <div class="article-title">
                 <h2>"{{prediction[2]}}"</h2>
             </div>
             <div class="article-link">
-                <a href={{prediction[3]}}>{{prediction[2]}}</a>
+                <a href={{prediction[3]}} style="color: white">{{prediction[2]}}</a>
             </div>
             <div class="results">
-                <h2 style="color:rgba(0, 0, 0, 0.4);">Amount:</h2>
-                <h2 style="color: black">It is {{prediction[1]}}% {{prediction[0]}}</h2>
+                <h2 style="color: #FF9B21;">Amount:</h2>
+                <h2 style="font-size:14px; color:gray; font-weight:bold; font-style:italic;">
+                    It is
+                    <span style="color: white">{{prediction[1]}}% </span>
+                    <span style="color: white">{{prediction[0]}}</span>
+                </h2>
             </div>
             <div class="btn-block">
                 <button type="submit" href="/">Back</button>
+            </div>
+            <div class="disclaimer">
+                <p style="font-size: 10px; color: gray;; font-family: sans-serif;">*this is not an endorsement to Trump</p>
             </div>
         </form>
     </div>
