@@ -1,0 +1,10 @@
+#pip3 install -qr requirements.txt 
+#assume python3 is installed
+flask
+numpy
+pandas
+matplotlib
+sklearn
+transformers
+torch
+newspaper3k

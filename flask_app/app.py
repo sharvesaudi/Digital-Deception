@@ -8,6 +8,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
+from newspaper import Article
+import os
 
 
 app = Flask(__name__)
@@ -20,21 +22,13 @@ def home():
 def predict():
     if request.method == 'POST':
         input_url = request.form['input_url']
-        #web scraping
-        web_text = """Price spikes, however, would cause demand to wither and some expensive avocados might be leftover, and stores might try to ration avocados, he added.
-            "Exactly what the retail strategy would be in this case, I’m not sure. But we would have vastly fewer avocados," Sumner said.
-            Just how fast avocados would disappear, if at all, would depend on whether the Trump administration enacts a full or partial border closure. White House economic adviser Larry Kudlow told CNBC he’s looking for ways to keep some commerce flowing.
-            "We are looking at different options, particularly if you can keep those freight lanes, the truck lanes, open," he said this week.  
-            Ben Holtz owns Rocky H Ranch, a 70-acre family-run avocado farm in northern San Diego County. He agreed avocados would run out within weeks.
-            "Mexico is the big player today. California is not. You shut down the border and California can’t produce to meet the demand," Holtz said. "There will be people without their guacamole."
-            While Mexico’s avocado harvest is year-round, California’s is limited to April through July. Growers in the state have picked only about 3 percent of what’s expected to be a much smaller crop of about 175 million pounds this year, Holtz said. A heat wave last summer reduced the crop size.
-            California’s avocado harvest has averaged approximately 300 million pounds in recent years, according to data from the California Avocado Commission. By contrast, the U.S. has imported more than 1.5 billion pounds of avocados from Mexico annually. Representatives from the commission did not respond to requests for this article.
-            Altogether, the U.S. received 43 percent of its fruit and vegetable imports from Mexico in 2016, according to the U.S. Department of Agriculture.
-            Also affecting this year’s avocado supply, a California avocado company in March recalled shipments to six states last month after fears the fruit might be contaminated with a bacterium that can cause health risks.
-            Until the early 2000s, California was the nation’s leading supplier of avocados, Holtz said. Mexico gradually overtook the state and now dominates sales in the U.S.
-            "It’s a very big possibility," Holtz said of avocado shortages. "Three weeks would dry up the Mexican inventory. California alone consumes more avocados than are grown in our state. Cold storage supply chain is basically three weeks or less of inventory. Most of the time it’s seven days."
-            A spokeswoman for the California Restaurant Association said "we haven’t heard concerns from restaurants, it doesn’t mean they aren’t worried." A national grocers association said it will "continue to closely monitor any developments" at the border, but did not have information about the potential impact on avocados.
-            """
+        news = Article(input_url, language='en')
+        news.download()
+        news.parse()
+        web_text = news.text
+        ''' f = open("news.txt", "w")
+        f.write(web_text)
+        f.close() '''
         pred = test(web_text)
     return render_template('result.html',prediction = pred)
 
@@ -132,5 +126,4 @@ if __name__ == '__main__':
         term = "real" if res.item() == 0 else "fake"
         print("{} at {}%".format(term, val.item() * 100))
         return (term,val.item() * 100)
-    
-    app.run(debug=True)
+    app.run(host=os.getenv('IP', '0.0.0.0'),port=int(os.getenv('PORT', 4444)))
