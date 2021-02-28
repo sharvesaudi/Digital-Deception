@@ -17,4 +17,3 @@ We are looking at building a mobile version/chrome extension, thus making Fakeou
 
 ### Try it out
 [colab.research.google.com](https://colab.research.google.com/drive/14GiG6cYyRh9AkCfvj7ceseL2DMTi2B7_?usp=sharing)
-[GitHub Repo](https://github.com/f73chen/SteelHacks)
